@@ -3,70 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shahid AI | High-Speed AI APIs</title>
+    <title>Shahid AI | Next-Gen Voice & Intelligence</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #0f172a; color: white; }
-        .gradient-text {
-            background: linear-gradient(90deg, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .card { background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; }
+        * { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+        body { background-color: #020617; overflow-x: hidden; }
+        .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glow-text { text-shadow: 0 0 20px rgba(56, 189, 248, 0.5); }
+        #canvas-container { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100vh; }
+        .btn-primary { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.5); }
+        .hidden { display: none; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        .animate-float { animation: float 4s ease-in-out infinite; }
     </style>
 </head>
-<body class="font-sans">
+<body class="text-white">
 
-    <nav class="p-6 flex justify-between items-center max-w-6xl mx-auto">
-        <h1 class="text-2xl font-bold gradient-text">Shahid AI</h1>
-        <div class="space-x-6 text-gray-300">
-            <a href="#features" class="hover:text-white">Features</a>
-            <a href="#pricing" class="hover:text-white">Pricing</a>
-            <a href="https://polar.sh/Shahid0812" class="bg-blue-600 px-4 py-2 rounded-lg text-white font-medium">Get API Key</a>
+    <div id="canvas-container"></div>
+
+    <nav class="fixed w-full z-50 glass py-4 px-6 border-b border-white/5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold">S</div>
+                <span class="text-xl font-extrabold tracking-tight">SHAHID <span class="text-blue-500">AI</span></span>
+            </div>
+            <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
+                <a href="#features" class="hover:text-white transition">Features</a>
+                <a href="#pricing" class="hover:text-white transition">Documentation</a>
+                <a href="mailto:your@email.com" class="hover:text-white transition">Contact</a>
+            </div>
+            <div id="nav-auth">
+                <button onclick="scrollToLogin()" class="btn-primary px-5 py-2 rounded-full text-sm font-bold">Get Started</button>
+            </div>
         </div>
     </nav>
 
-    <header class="py-20 text-center max-w-4xl mx-auto px-4">
-        <h2 class="text-5xl md:text-7xl font-extrabold mb-6">Unleash <span class="gradient-text">Kokoro TTS</span> & <span class="gradient-text">SmolLM</span></h2>
-        <p class="text-gray-400 text-xl mb-10">Low-latency, high-quality Text-to-Speech and LLM chat interfaces. Ready to integrate into your apps today.</p>
-        <div class="flex flex-col md:flex-row justify-center gap-4">
-            <a href="#pricing" class="bg-white text-black px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-200 transition">View Pricing</a>
-            <a href="https://github.com/Shahid0812" class="border border-gray-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-800 transition">View Documentation</a>
-        </div>
-    </header>
+    <section class="relative pt-32 pb-20 px-6 min-h-screen flex items-center">
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8 animate-float">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold">
+                    <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span></span>
+                    V2.0 NOW LIVE
+                </div>
+                <h1 class="text-6xl md:text-8xl font-extrabold leading-tight">AI that speaks & <span class="text-blue-500 glow-text">thinks.</span></h1>
+                <p class="text-gray-400 text-xl max-w-lg">Access professional-grade Kokoro TTS and SmolLM chat via a single, lightning-fast API. Built for the next generation of builders.</p>
+                <div class="flex gap-4">
+                    <button onclick="scrollToLogin()" class="btn-primary px-8 py-4 rounded-2xl font-bold shadow-lg shadow-blue-500/20">Claim 50 Free Credits</button>
+                </div>
+            </div>
 
-    <section id="features" class="py-20 max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8">
-        <div class="card p-8 rounded-2xl">
-            <h3 class="text-2xl font-bold mb-4 text-blue-400">Kokoro TTS API</h3>
-            <p class="text-gray-400">Human-like speech synthesis with zero lag. Perfect for voice assistants and content creation.</p>
-            <div class="mt-4 bg-black p-3 rounded font-mono text-sm text-green-400">POST /api/generate?type=tts</div>
-        </div>
-        <div class="card p-8 rounded-2xl">
-            <h3 class="text-2xl font-bold mb-4 text-purple-400">SmolLM Chat API</h3>
-            <p class="text-gray-400">Lightweight yet powerful chat model for instant responses and low-cost reasoning.</p>
-            <div class="mt-4 bg-black p-3 rounded font-mono text-sm text-green-400">POST /api/generate?type=chat</div>
+            <div id="auth-box" class="glass p-8 md:p-12 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
+                <div id="login-form">
+                    <h3 class="text-3xl font-bold mb-2">Login</h3>
+                    <p class="text-gray-400 mb-8">Enter your email to sync your credits.</p>
+                    <div class="space-y-4">
+                        <input id="email-field" type="email" placeholder="name@company.com" class="w-full p-4 rounded-xl bg-slate-900/50 border border-white/10 focus:border-blue-500 focus:outline-none transition">
+                        <button onclick="handleLogin()" id="login-btn" class="w-full btn-primary py-4 rounded-xl font-bold">Generate API Access</button>
+                    </div>
+                    <p class="mt-6 text-xs text-gray-500 text-center">By logging in, you agree to our fair usage daily cycle.</p>
+                </div>
+
+                <div id="user-dashboard" class="hidden text-left space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-2xl font-bold text-blue-400">Your Dashboard</h3>
+                        <button onclick="handleLogout()" class="text-xs text-red-500 hover:underline">Log out</button>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs text-gray-500 font-bold uppercase tracking-widest">Secret API Key</label>
+                        <div class="flex gap-2">
+                            <code id="key-display" class="flex-1 bg-black/50 p-4 rounded-xl text-yellow-500 font-mono text-sm border border-white/5 truncate"></code>
+                            <button onclick="copyKey()" class="bg-white/10 px-4 rounded-xl hover:bg-white/20 transition">Copy</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-blue-500/5 border border-blue-500/10 p-4 rounded-2xl">
+                            <p class="text-xs text-gray-500 font-bold mb-1 uppercase">Daily Credits</p>
+                            <p id="credit-display" class="text-3xl font-bold text-white"></p>
+                        </div>
+                        <div class="bg-purple-500/5 border border-purple-500/10 p-4 rounded-2xl">
+                            <p class="text-xs text-gray-500 font-bold mb-1 uppercase">Reset In</p>
+                            <p class="text-xl font-bold text-white">24 Hours</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="pricing" class="py-20 text-center px-4">
-        <h2 class="text-4xl font-bold mb-12">Simple Credit Pricing</h2>
-        <div class="max-w-sm mx-auto card p-10 rounded-3xl border-2 border-blue-500 relative">
-            <span class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blue-500 px-4 py-1 rounded-full text-xs font-bold">MOST POPULAR</span>
-            <h3 class="text-2xl font-bold mb-2">Starter Pack</h3>
-            <div class="text-5xl font-bold mb-6">100 <span class="text-xl text-gray-500 font-normal">INR/USD</span></div>
-            <ul class="text-left space-y-4 mb-8 text-gray-300">
-                <li class="flex items-center">✅ 1,000 API Credits</li>
-                <li class="flex items-center">✅ Access to both TTS & Chat</li>
-                <li class="flex items-center">✅ High-priority processing</li>
-                <li class="flex items-center">✅ Dedicated Support</li>
-            </ul>
-            <a href="https://polar.sh/Shahid0812/products/4c16b339-02ff-4596-8913-753533d5bb85" class="block bg-blue-600 w-full py-4 rounded-xl font-bold hover:bg-blue-500 transition">Buy Credits Now</a>
-        </div>
-    </section>
+    <script>
+        // 1. THREE.JS Background Animation
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-    <footer class="py-10 border-t border-gray-800 text-center text-gray-500 text-sm">
-        <p>&copy; 2026 Shahid AI Services. All rights reserved.</p>
-    </footer>
+        const particlesGeometry = new THREE.BufferGeometry();
+        const posArr = new Float32Array(5000 * 3);
+        for(let i=0; i<5000*3; i++) posArr[i] = (Math.random() - 0.5) * 10;
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
+        const material = new THREE.PointsMaterial({ size: 0.005, color: '#3b82f6', transparent: true, opacity: 0.5 });
+        const particlesMesh = new THREE.Points(particlesGeometry, material);
+        scene.add(particlesMesh);
+        camera.position.z = 3;
 
+        function animate() {
+            requestAnimationFrame(animate);
+            particlesMesh.rotation.y += 0.001;
+            particlesMesh.rotation.x += 0.0005;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // 2. Auth Logic
+        async function handleLogin() {
+            const btn = document.getElementById('login-btn');
+            const email = document.getElementById('email-field').value;
+            if(!email) return alert("Email required");
+            
+            btn.innerText = "Processing...";
+            try {
+                const res = await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ email })
+                });
+                const data = await res.json();
+                if(data.apiKey) {
+                    localStorage.setItem('shahid_api_key', data.apiKey);
+                    showDashboard(data.apiKey, data.credits);
+                }
+            } catch (e) { alert("Server error"); }
+            btn.innerText = "Generate API Access";
+        }
+
+        function showDashboard(key, credits) {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('user-dashboard').classList.remove('hidden');
+            document.getElementById('key-display').innerText = key;
+            document.getElementById('credit-display').innerText = credits + "/50";
+            document.getElementById('nav-auth').innerHTML = `<span class="text-sm font-bold text-blue-400">Dashboard Active</span>`;
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('shahid_api_key');
+            location.reload();
+        }
+
+        function copyKey() {
+            const key = document.getElementById('key-display').innerText;
+            navigator.clipboard.writeText(key);
+            alert("Key copied to clipboard!");
+        }
+
+        function scrollToLogin() {
+            document.getElementById('auth-box').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.onload = () => {
+            const savedKey = localStorage.getItem('shahid_api_key');
+            if(savedKey) showDashboard(savedKey, '50');
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
 </body>
-</html>
+    </html>
+                            
