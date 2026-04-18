@@ -1,39 +1,56 @@
-import { createClient } from '@supabase/supabase-client';
+import { createClient } from '@supabase/supabase-js';
 
-// Initializing Supabase
-const supabase = createClient(
-  process.env.SUPABASE_URL, 
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+const DAILY_FREE_LIMIT = 50; 
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Use POST' });
+  
+  const { apiKey, text, type } = req.body;
 
-  const { apiKey, text, type } = req.body; // type can be 'tts' or 'chat'
+  // 1. Get User from Supabase
+  let { data: user, error } = await supabase.from('users').select('*').eq('api_key', apiKey).single();
+  if (error || !user) return res.status(401).json({ error: "Invalid API Key" });
 
-  // 1. Validate User & Credits in Supabase
-  const { data: user, error } = await supabase
-    .from('users')
-    .select('*')
-    .eq('api_key', apiKey)
-    .single();
+  // 2. 24-Hour Cycle Logic
+  const now = new Date();
+  const lastReset = new Date(user.last_reset);
+  const hoursSinceReset = (now - lastReset) / (1000 * 60 * 60);
 
-  if (error || !user || user.credits <= 0) {
-    return res.status(401).json({ error: 'Invalid API Key or 0 credits remaining.' });
+  if (hoursSinceReset >= 24) {
+    // Refill to free limit and update the reset timestamp
+    await supabase.from('users').update({ 
+      credits: Math.max(user.credits, DAILY_FREE_LIMIT), 
+      last_reset: now.toISOString() 
+    }).eq('id', user.id);
+    user.credits = Math.max(user.credits, DAILY_FREE_LIMIT);
   }
 
-  // 2. Decide which Hugging Face Space to call
+  // 3. Check Credits
+  if (user.credits <= 0) {
+    return res.status(403).json({ error: "Daily limit reached. Contact Shahid for more!" });
+  }
+
+  // 4. Call Hugging Face
   const hfUrl = type === 'tts' 
     ? "https://shahid202-kokoro-api.hf.space/generate" 
     : "https://Shahid0812-chatapi.hf.space/chat";
 
   try {
-    // 3. Subtract 1 credit from Supabase
     await supabase.from('users').update({ credits: user.credits - 1 }).eq('id', user.id);
-
-    // 4. Call Hugging Face
+    
     const hfResponse = await fetch(hfUrl, {
       method: "POST",
+      headers: { "Authorization": `Bearer ${process.env.HF_TOKEN}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ text })
+    });
+
+    const result = await hfResponse.json();
+    res.status(200).json({ success: true, data: result, credits_left: user.credits - 1 });
+  } catch (err) {
+    res.status(500).json({ error: "AI Space is sleeping or busy." });
+  }
+}
       headers: { 
         "Authorization": `Bearer ${process.env.HF_TOKEN}`,
         "Content-Type": "application/json" 
