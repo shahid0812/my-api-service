@@ -3,177 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shahid AI | Next-Gen Voice & Intelligence</title>
+    <title>Shahid AI | API Gateway</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        * { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
-        body { background-color: #020617; overflow-x: hidden; }
-        .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .glow-text { text-shadow: 0 0 20px rgba(56, 189, 248, 0.5); }
-        #canvas-container { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100vh; }
-        .btn-primary { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); transition: transform 0.2s, box-shadow 0.2s; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.5); }
+        body { background-color: #020617; color: white; scroll-behavior: smooth; margin: 0; overflow-x: hidden; }
+        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
         .hidden { display: none; }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
-        .animate-float { animation: float 4s ease-in-out infinite; }
+        .feature-card { transition: all 0.3s ease; }
+        .feature-card:hover { transform: translateY(-5px); border-color: #3b82f6; }
     </style>
 </head>
-<body class="text-white">
+<body>
 
-    <div id="canvas-container"></div>
+    <canvas id="bg-canvas"></canvas>
 
-    <nav class="fixed w-full z-50 glass py-4 px-6 border-b border-white/5">
+    <nav class="fixed w-full z-50 glass py-4 px-8 border-b border-white/5">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold">S</div>
-                <span class="text-xl font-extrabold tracking-tight">SHAHID <span class="text-blue-500">AI</span></span>
-            </div>
+            <h1 class="text-xl font-bold tracking-tighter">SHAHID <span class="text-blue-500 underline">AI</span></h1>
             <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
-                <a href="#features" class="hover:text-white transition">Features</a>
-                <a href="#pricing" class="hover:text-white transition">Documentation</a>
-                <a href="mailto:your@email.com" class="hover:text-white transition">Contact</a>
+                <a href="#features" class="hover:text-white transition">Capabilities</a>
+                <a href="#docs" class="hover:text-white transition">Docs</a>
+                <a href="mailto:your-email@gmail.com" class="hover:text-white transition">Support</a>
             </div>
-            <div id="nav-auth">
-                <button onclick="scrollToLogin()" class="btn-primary px-5 py-2 rounded-full text-sm font-bold">Get Started</button>
-            </div>
+            <button onclick="document.getElementById('auth-section').scrollIntoView()" class="bg-blue-600 hover:bg-blue-500 px-5 py-2 rounded-full text-sm font-bold transition">Launch Console</button>
         </div>
     </nav>
 
-    <section class="relative pt-32 pb-20 px-6 min-h-screen flex items-center">
-        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-            <div class="space-y-8 animate-float">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold">
-                    <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span></span>
-                    V2.0 NOW LIVE
-                </div>
-                <h1 class="text-6xl md:text-8xl font-extrabold leading-tight">AI that speaks & <span class="text-blue-500 glow-text">thinks.</span></h1>
-                <p class="text-gray-400 text-xl max-w-lg">Access professional-grade Kokoro TTS and SmolLM chat via a single, lightning-fast API. Built for the next generation of builders.</p>
-                <div class="flex gap-4">
-                    <button onclick="scrollToLogin()" class="btn-primary px-8 py-4 rounded-2xl font-bold shadow-lg shadow-blue-500/20">Claim 50 Free Credits</button>
+    <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-20">
+        <h2 class="text-5xl md:text-8xl font-black mb-6 leading-tight">Fast. Private. <br><span class="text-blue-500">Intelligent.</span></h2>
+        <p class="text-gray-400 text-lg md:text-xl max-w-2xl mb-12">The world's first unified API for Kokorao TTS and Smollm Intelligence. Built for creators who need speed and zero downtime.</p>
+        
+        <div id="auth-section" class="glass p-8 md:p-12 rounded-[2rem] w-full max-w-lg shadow-2xl">
+            <div id="login-form">
+                <h3 class="text-2xl font-bold mb-2">Claim Your Access</h3>
+                <p class="text-sm text-gray-500 mb-6">Receive 50 free credits daily. No credit card required.</p>
+                <div class="space-y-4">
+                    <input id="email-field" type="email" placeholder="Enter your email" class="w-full p-4 rounded-xl bg-slate-950 border border-white/10 focus:border-blue-500 focus:outline-none text-white">
+                    <button id="login-btn" onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-bold text-lg transition duration-300">Generate My API Key</button>
                 </div>
             </div>
 
-            <div id="auth-box" class="glass p-8 md:p-12 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
-                <div id="login-form">
-                    <h3 class="text-3xl font-bold mb-2">Login</h3>
-                    <p class="text-gray-400 mb-8">Enter your email to sync your credits.</p>
-                    <div class="space-y-4">
-                        <input id="email-field" type="email" placeholder="name@company.com" class="w-full p-4 rounded-xl bg-slate-900/50 border border-white/10 focus:border-blue-500 focus:outline-none transition">
-                        <button onclick="handleLogin()" id="login-btn" class="w-full btn-primary py-4 rounded-xl font-bold">Generate API Access</button>
-                    </div>
-                    <p class="mt-6 text-xs text-gray-500 text-center">By logging in, you agree to our fair usage daily cycle.</p>
+            <div id="user-dashboard" class="hidden text-left space-y-6">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-blue-400">Developer Console</h3>
+                    <button onclick="handleLogout()" class="text-xs text-red-400 hover:underline">Sign Out</button>
                 </div>
-
-                <div id="user-dashboard" class="hidden text-left space-y-6">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-2xl font-bold text-blue-400">Your Dashboard</h3>
-                        <button onclick="handleLogout()" class="text-xs text-red-500 hover:underline">Log out</button>
+                <div class="p-4 bg-black/50 rounded-xl border border-white/5">
+                    <p class="text-[10px] text-gray-500 font-bold uppercase mb-2">Your Secret API Key</p>
+                    <div class="flex items-center gap-3">
+                        <code id="key-display" class="text-yellow-500 font-mono text-xs break-all"></code>
+                        <button onclick="copyKey()" class="text-[10px] bg-white/10 px-2 py-1 rounded">COPY</button>
                     </div>
-                    <div class="space-y-2">
-                        <label class="text-xs text-gray-500 font-bold uppercase tracking-widest">Secret API Key</label>
-                        <div class="flex gap-2">
-                            <code id="key-display" class="flex-1 bg-black/50 p-4 rounded-xl text-yellow-500 font-mono text-sm border border-white/5 truncate"></code>
-                            <button onclick="copyKey()" class="bg-white/10 px-4 rounded-xl hover:bg-white/20 transition">Copy</button>
-                        </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 bg-white/5 rounded-xl border border-white/5">
+                        <p class="text-[10px] text-gray-500 font-bold uppercase">Balance</p>
+                        <p id="credit-display" class="text-2xl font-bold"></p>
                     </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-blue-500/5 border border-blue-500/10 p-4 rounded-2xl">
-                            <p class="text-xs text-gray-500 font-bold mb-1 uppercase">Daily Credits</p>
-                            <p id="credit-display" class="text-3xl font-bold text-white"></p>
-                        </div>
-                        <div class="bg-purple-500/5 border border-purple-500/10 p-4 rounded-2xl">
-                            <p class="text-xs text-gray-500 font-bold mb-1 uppercase">Reset In</p>
-                            <p class="text-xl font-bold text-white">24 Hours</p>
-                        </div>
+                    <div class="p-4 bg-white/5 rounded-xl border border-white/5">
+                        <p class="text-[10px] text-gray-500 font-bold uppercase">Daily Limit</p>
+                        <p class="text-2xl font-bold">50</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <script>
-        // 1. THREE.JS Background Animation
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
+    <section id="features" class="py-32 px-6 max-w-7xl mx-auto">
+        <h2 class="text-4xl font-bold mb-16 text-center">Core <span class="text-blue-500">Capabilities</span></h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="glass p-8 rounded-3xl feature-card">
+                <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-6">🎙️</div>
+                <h4 class="text-xl font-bold mb-3">Kokorao TTS</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">High-fidelity voice synthesis. Convert text to realistic speech in milliseconds with professional-grade clarity.</p>
+            </div>
+            <div class="glass p-8 rounded-3xl feature-card">
+                <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-6">🧠</div>
+                <h4 class="text-xl font-bold mb-3">Smollm Intelligence</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">A lightning-fast chatbot assistant. Think Gemini or ChatGPT, but optimized for speed and targeted reasoning.</p>
+            </div>
+            <div class="glass p-8 rounded-3xl feature-card">
+                <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mb-6">🛡️</div>
+                <h4 class="text-xl font-bold mb-3">Vercel Edge Bridge</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">No direct model exposure. Your requests are proxied through our secure edge bridge for maximum protection.</p>
+            </div>
+        </div>
+    </section>
 
-        const particlesGeometry = new THREE.BufferGeometry();
-        const posArr = new Float32Array(5000 * 3);
-        for(let i=0; i<5000*3; i++) posArr[i] = (Math.random() - 0.5) * 10;
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
-        const material = new THREE.PointsMaterial({ size: 0.005, color: '#3b82f6', transparent: true, opacity: 0.5 });
-        const particlesMesh = new THREE.Points(particlesGeometry, material);
-        scene.add(particlesMesh);
-        camera.position.z = 3;
+    <section id="docs" class="py-32 bg-slate-950/50 px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8">Quick Start Documentation</h2>
+            <div class="bg-black rounded-2xl p-6 font-mono text-sm text-blue-400 overflow-x-auto">
+                <p class="text-gray-500 mb-2">// Request Example</p>
+                <p>POST /api/generate</p>
+                <p>Header: Content-Type: application/json</p>
+                <p>Body: {</p>
+                <p class="pl-4">"apiKey": "YOUR_KEY",</p>
+                <p class="pl-4">"type": "chat",</p>
+                <p class="pl-4">"text": "Hello Shahid!"</p>
+                <p>}</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 text-center text-gray-600 text-xs border-t border-white/5">
+        &copy; 2026 SHAHID AI SERVICES. ALL RIGHTS RESERVED.
+    </footer>
+
+    <script>
+        // --- THREE.JS BACKGROUND ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        
+        const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
+        const material = new THREE.MeshStandardMaterial({ color: 0x3b82f6, wireframe: true });
+        const torus = new THREE.Mesh(geometry, material);
+        scene.add(torus);
+        
+        const pointLight = new THREE.PointLight(0xffffff);
+        pointLight.position.set(20, 20, 20);
+        scene.add(new THREE.AmbientLight(0xffffff), pointLight);
 
         function animate() {
             requestAnimationFrame(animate);
-            particlesMesh.rotation.y += 0.001;
-            particlesMesh.rotation.x += 0.0005;
+            torus.rotation.x += 0.01;
+            torus.rotation.y += 0.005;
             renderer.render(scene, camera);
         }
+        camera.position.z = 30;
         animate();
 
-        // 2. Auth Logic
+        // --- AUTH LOGIC ---
         async function handleLogin() {
-            const btn = document.getElementById('login-btn');
             const email = document.getElementById('email-field').value;
-            if(!email) return alert("Email required");
-            
-            btn.innerText = "Processing...";
+            const btn = document.getElementById('login-btn');
+            if(!email) return alert("Please enter email");
+
+            btn.innerText = "Connecting to Bridge...";
+            btn.disabled = true;
+
             try {
-                const res = await fetch('/api/auth', {
+                const response = await fetch('/api/auth', {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email })
                 });
-                const data = await res.json();
+                
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const data = await response.json();
+                console.log("Success:", data);
+                
                 if(data.apiKey) {
-                    localStorage.setItem('shahid_api_key', data.apiKey);
-                    showDashboard(data.apiKey, data.credits);
+                    localStorage.setItem('sh_api_key', data.apiKey);
+                    localStorage.setItem('sh_credits', data.credits);
+                    updateDashboard(data.apiKey, data.credits);
                 }
-            } catch (e) { alert("Server error"); }
-            btn.innerText = "Generate API Access";
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Login failed. Check Vercel logs or your Supabase connection.");
+            } finally {
+                btn.innerText = "Generate My API Key";
+                btn.disabled = false;
+            }
         }
 
-        function showDashboard(key, credits) {
+        function updateDashboard(key, credits) {
             document.getElementById('login-form').classList.add('hidden');
             document.getElementById('user-dashboard').classList.remove('hidden');
             document.getElementById('key-display').innerText = key;
-            document.getElementById('credit-display').innerText = credits + "/50";
-            document.getElementById('nav-auth').innerHTML = `<span class="text-sm font-bold text-blue-400">Dashboard Active</span>`;
+            document.getElementById('credit-display').innerText = credits;
         }
 
         function handleLogout() {
-            localStorage.removeItem('shahid_api_key');
+            localStorage.clear();
             location.reload();
         }
 
         function copyKey() {
             const key = document.getElementById('key-display').innerText;
             navigator.clipboard.writeText(key);
-            alert("Key copied to clipboard!");
-        }
-
-        function scrollToLogin() {
-            document.getElementById('auth-box').scrollIntoView({ behavior: 'smooth' });
+            alert("API Key Copied!");
         }
 
         window.onload = () => {
-            const savedKey = localStorage.getItem('shahid_api_key');
-            if(savedKey) showDashboard(savedKey, '50');
-        }
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+            const savedKey = localStorage.getItem('sh_api_key');
+            if(savedKey) updateDashboard(savedKey, localStorage.getItem('sh_credits'));
+        };
     </script>
 </body>
     </html>
-                            
+    
